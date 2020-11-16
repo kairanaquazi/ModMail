@@ -123,9 +123,12 @@ client.on('message', async message => {
                 .setDescription('*Your ModMail has been marked as **Complete**. If you wish to reopen this, or create a new one, please send a message to the bot.*');
                 
             supportUser.send(complete);
-            message.channel.delete()
-                .then(console.log(`Support for ${supportUser.tag} has been closed.`))
-                .catch(console.error);
+            const complete = new Discord.RichEmbed()
+                .setColor('36393E')
+                .setAuthor(`Hey, ${supportUser.tag}`, supportUser.displayAvatarURL)
+                .setFooter('Ticket Closed')
+                .setDescription('*This ticket has been marked as **Complete**.*');
+            message.channel.send(complete);
             return db.delete(`support_${support.targetID}`);
         }
         const embed = new Discord.RichEmbed()
